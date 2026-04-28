@@ -27,27 +27,9 @@ async function run() {
 
 run()
 
-function sendRequest(url) {
-    return new Promise((resolve, reject) => {
-        const xhr = new XMLHttpRequest();
-        xhr.open("GET", url, true);
-
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                if (xhr.status === 200) {
-                    resolve(JSON.parse(xhr.response));
-                } else {
-                    reject(new Error(`Ошибка HTTP: ${xhr.status}`));
-                }
-            }
-        };
-
-        xhr.onerror = function () {
-            reject(new Error("Сетевая ошибка при выполнении запроса"));
-        };
-
-        xhr.send();
-    });
+async function sendRequest(url) {
+    const response = await fetch(url);
+    return await response.json(); 
 }
 
 function reqsToMap(requisites) {
