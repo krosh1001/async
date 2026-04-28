@@ -13,7 +13,7 @@ async function run() {
         const requisites = await sendRequest(`${API.orgReqs}?ogrn=${ogrns}`);
         const orgsMap = reqsToMap(requisites);
 
-        const analytics = await sendRequest(`${API.analytics}?ogrn=${ogrns}`);
+        const analytics = await sendRequest(`${API.analitics}?ogrn=${ogrns}`);
         addInOrgsMap(orgsMap, analytics, "analytics");
 
         const buh = await sendRequest(`${API.buhForms}?ogrn=${ogrns}`);
@@ -29,6 +29,11 @@ run()
 
 async function sendRequest(url) {
     const response = await fetch(url);
+    if (!response.ok){
+        const errMsg = `Error ${response.status}: ${response.statusText}`;
+        alert(errMsg);
+        throw new Error(errMsg);
+    }
     return await response.json(); 
 }
 
